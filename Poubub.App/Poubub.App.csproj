@@ -64,7 +64,6 @@
     <Compile Include="ClockControl.Designer.cs">
       <DependentUpon>ClockControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="CurrentState.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,11 +76,11 @@
     <Compile Include="FunctionModuleControl.Designer.cs">
       <DependentUpon>FunctionModuleControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="NotesControl.cs">
+    <Compile Include="OutputViewControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="NotesControl.Designer.cs">
-      <DependentUpon>NotesControl.cs</DependentUpon>
+    <Compile Include="OutputViewControl.Designer.cs">
+      <DependentUpon>OutputViewControl.cs</DependentUpon>
     </Compile>
     <Compile Include="PanelControl.cs">
       <SubType>UserControl</SubType>
@@ -106,8 +105,8 @@
     <EmbeddedResource Include="FunctionModuleControl.resx">
       <DependentUpon>FunctionModuleControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NotesControl.resx">
-      <DependentUpon>NotesControl.cs</DependentUpon>
+    <EmbeddedResource Include="OutputViewControl.resx">
+      <DependentUpon>OutputViewControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PanelControl.resx">
       <DependentUpon>PanelControl.cs</DependentUpon>

@@ -7,15 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Poubub.App
+namespace Poubub.Core
 {
     public static class CurrentState
     {
 
+        public static GlobalSettings Settings = new GlobalSettings();
+        
         public static Session thisSession;
 
         public static void Save(string filename = null)
         {
+            string settingser = Newtonsoft.Json.JsonConvert.SerializeObject(Settings, Formatting.Indented);
+            if (File.ReadAllText("globalSettings.json") != settingser)
+            {
+                File.WriteAllText("globalSettings.json", settingser);
+            }
             //TODO: default sve folder
             if (filename == null)
             {
@@ -45,6 +52,10 @@ namespace Poubub.App
 
         public static void Load(string filename = null)
         {
+            if (File.Exists("globalSettings.json"))
+            {
+                Settings = JsonConvert.DeserializeObject<GlobalSettings>(File.ReadAllText("globalSettings.json"));
+            }
             Session newsess;
             if (filename == null)
             {
@@ -57,9 +68,7 @@ namespace Poubub.App
                 {
                     newsess = new Session();
                     newsess.Modules.Add(new Core.CVGFunction(" function (data) { x = 1 + 1 ; return data } "));
-
                 }
-
                 newsess.Name = Utils.RandName() + ".pousess";
                 thisSession = newsess;
             }

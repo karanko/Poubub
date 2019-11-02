@@ -19,12 +19,12 @@ namespace Poubub.App
             InitializeComponent();
         }
         public CVGFunction Function;
-        private  JSBeautifyLib.JSBeautifyOptions  jsbo  = new JSBeautifyLib.JSBeautifyOptions();
+       
         public FunctionModuleControl(CVGFunction function)
         {
             Function = function;
             InitializeComponent();
-            textBox.Text = (new JSBeautifyLib.JSBeautify(Function.Script, jsbo)).GetResult();  ;
+            textBox.Text = Utils.JSBeautify(function.Script);  ;
             this.Name = Function.Name;
         }
 

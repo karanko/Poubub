@@ -17,11 +17,13 @@ namespace Poubub.App
         public MainForm()
         {
             InitializeComponent();
-            this.BackColor = Forms.Utils.GetDarkColor();
-            this.ForeColor = Forms.Utils.GetLightColor();
-
+            this.BackColor = Forms.Theme.GetDarkColor();
+            this.ForeColor = Forms.Theme.GetLightColor();
+            outputViewControl1.StyleEverything();
+         
             CurrentState.Load();
             BuildSession();
+            outputViewControl1.AddThing("CVG1", CurrentState.thisSession, new Func<object, string>(x => Newtonsoft.Json.JsonConvert.SerializeObject(((Session)x).ProcessedResults.LastOrDefault(),Newtonsoft.Json.Formatting.Indented)));
         }
 
     
@@ -56,7 +58,9 @@ namespace Poubub.App
 
             CurrentState.thisSession.Modules.ForEach(m => firstPanel.AddControl(new FunctionModuleControl(m)));
             secondPanel.AddControl(new PatternControl());
-            secondPanel.AddControl(new NotesControl());
+            secondPanel.AddControl(new GenericTextControl("Global Functions", Utils.JSBeautify( CurrentState.Settings.Functions), new Action<string>(x => CurrentState.Settings.Functions = x)));
+            secondPanel.AddControl(new GenericTextControl("Session Notes", CurrentState.thisSession.Notes, new Action<string>(x => CurrentState.thisSession.Notes = x)));
+            secondPanel.AddControl(new GenericTextControl("Global Notes", CurrentState.Settings.Notes, new Action<string>(x => CurrentState.Settings.Notes = x)));
             this.Text = System.IO.Path.GetFileNameWithoutExtension(CurrentState.thisSession.Name);
 
         }
@@ -73,7 +77,6 @@ namespace Poubub.App
             dialog.ShowDialog();
             if (!String.IsNullOrEmpty(dialog.FileName))
             {
-   
                 CurrentState.Save(dialog.FileName);
                 BuildSession();
             }
@@ -113,6 +116,7 @@ namespace Poubub.App
             {
                 CurrentState.thisSession.ProcessedResults.RemoveAt(0);
             }
+            outputViewControl1.Update("CVG1");
         }
 
         private void menuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)

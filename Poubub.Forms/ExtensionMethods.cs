@@ -21,7 +21,7 @@ namespace Poubub.Forms
             {
                 
                 control.BackColor = Color.Black;
-                control.ForeColor = Utils.GetLightColor();
+                control.ForeColor = Theme.GetLightColor();
                 ((TextBox)control).BorderStyle = BorderStyle.FixedSingle;
             }
            

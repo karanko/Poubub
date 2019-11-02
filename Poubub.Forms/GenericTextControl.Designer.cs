@@ -1,6 +1,6 @@
-﻿namespace Poubub.App
+﻿namespace Poubub.Forms
 {
-    partial class NotesControl
+    partial class GenericTextControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -37,17 +37,16 @@
             this.textBox1.Location = new System.Drawing.Point(0, 0);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(150, 92);
+            this.textBox1.Size = new System.Drawing.Size(150, 150);
             this.textBox1.TabIndex = 0;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.TextChanged += new System.EventHandler(this.Text_Changed);
             // 
-            // NotesControl
+            // GenericTextControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.textBox1);
-            this.Name = "NotesControl";
-            this.Size = new System.Drawing.Size(150, 92);
+            this.Name = "GenericTextControl";
             this.ResumeLayout(false);
             this.PerformLayout();
 

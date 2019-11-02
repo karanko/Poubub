@@ -44,6 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="GenericTextControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GenericTextControl.Designer.cs">
+      <DependentUpon>GenericTextControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WrapperControl.cs">
@@ -54,6 +60,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GenericTextControl.resx">
+      <DependentUpon>GenericTextControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WrapperControl.resx">
       <DependentUpon>WrapperControl.cs</DependentUpon>
     </EmbeddedResource>

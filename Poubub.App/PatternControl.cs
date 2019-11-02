@@ -23,14 +23,12 @@ namespace Poubub.App
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
             CurrentState.thisSession.Sequence.Patterns.First().Steps = ((TextBox)sender).Text;
             GetResult();
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-
             CurrentState.thisSession.Sequence.Patterns.First().Offsets = ((TextBox)sender).Text;
             GetResult();
         }

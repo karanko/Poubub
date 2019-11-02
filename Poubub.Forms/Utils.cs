@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Poubub.Forms
 {
-    public class Utils
+    public class Theme
     {
         private static Random _rnd = new Random(DateTime.Now.Millisecond);
         public static Color GetRainbowColor()

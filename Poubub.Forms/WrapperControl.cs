@@ -105,9 +105,9 @@ namespace Poubub.Forms
 
             }
         }
-        internal Color rainbowColor = Forms.Utils.GetRainbowColor();
-        internal Color darkColor = Forms.Utils.GetDarkColor();
-        internal Color lightColor = Forms.Utils.GetLightColor();
+        internal Color rainbowColor = Forms.Theme.GetRainbowColor();
+        internal Color darkColor = Forms.Theme.GetDarkColor();
+        internal Color lightColor = Forms.Theme.GetLightColor();
 
         internal bool Hidden = false;
     }
