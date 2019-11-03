@@ -23,7 +23,7 @@ namespace Poubub.Core
             }
             set
             {
-                Debug.WriteLine(value);
+              //  Debug.WriteLine(value);
                 _jsengine.SetGlobalValue("FunctionName", value);
             }
         } 
@@ -36,7 +36,7 @@ namespace Poubub.Core
             set {
                 try
                 {
-                    Debug.WriteLine(value);
+                   // Debug.WriteLine(value);
                     //TODO: do we need to var here - how to force this to be global nicely?
                     _jsengine.Execute("var Process = " + value);
                     _jsengine.RecursionDepthLimit = 10000;
@@ -69,7 +69,11 @@ namespace Poubub.Core
         {
             try
             {
-
+                //HACK: this feels wrong
+                if (!String.IsNullOrEmpty(CurrentState.Settings.Functions))
+                {
+                    _jsengine.Execute(CurrentState.Settings.Functions);
+                }
                 // Debug.WriteLine("Process();");
                 //INPUT HACKS
                 //  _jsengine.SetGlobalValue("gate_input", inputdata.Gate);

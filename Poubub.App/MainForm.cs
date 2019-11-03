@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using Poubub.Core;
 using Poubub.Forms;
 
@@ -19,31 +20,11 @@ namespace Poubub.App
             InitializeComponent();
             this.BackColor = Forms.Theme.GetDarkColor();
             this.ForeColor = Forms.Theme.GetLightColor();
-            outputViewControl1.StyleEverything();
-         
+
             CurrentState.Load();
-            BuildSession();
-            outputViewControl1.AddThing("CVG1", CurrentState.thisSession, new Func<object, string>(x => Newtonsoft.Json.JsonConvert.SerializeObject(((Session)x).ProcessedResults.LastOrDefault(),Newtonsoft.Json.Formatting.Indented)));
+            ProcessedResultsControl = new GenericTextControl("[Procesed Data]", new Action<TextBox>(x => x.Text = Utils.JSBeautify(JsonConvert.SerializeObject(CurrentState.Session.ProcessedResults.LastOrDefault(), Formatting.Indented))), null, 200);
         }
-
-    
-     
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    firstPanel.Controls.Clear();
-        //    firstPanel.Controls.Add((Button)sender);
-        //    for (int i = 0; i < 10; i++)
-        //    {
-        //        var c = Forms.Utils.GetRainbowColor();
-        //        firstPanel.Controls.Add(new TextBox() { Height = 10, Width = 150, BackColor = c, Text = c.ToString() });
-        //    }
-        //}
-
+        private GenericTextControl ProcessedResultsControl;
         private void Form1_Load(object sender, EventArgs e)
         {
             BuildSession();
@@ -53,20 +34,31 @@ namespace Poubub.App
             //Clean up
             firstPanel.Clear();
             secondPanel.Clear();
+            thirdPanel.Clear();
+            forthPanel.Clear();
 
             //import session
+            firstPanel.AddControl(new GenericTextControl("[Inital Data]", Utils.JSBeautify(JsonConvert.SerializeObject(CurrentState.Session.InitalData, Formatting.Indented)), new Action<string>(x => { try { CurrentState.Session.InitalData = JsonConvert.DeserializeObject<CVG>(x); } catch { } }), 200));
 
-            CurrentState.thisSession.Modules.ForEach(m => firstPanel.AddControl(new FunctionModuleControl(m)));
+            //PanelControl modulepanel = new PanelControl();
+            //modulepanel.Height = 500;
+            //firstPanel.AddControl(modulepanel);
+            //CurrentState.thisSession.Modules.ForEach(m => modulepanel.AddControl(new FunctionModuleControl(m)));
+            CurrentState.Session.Modules.ForEach(m => firstPanel.AddControl(new FunctionModuleControl(m)).Parent.Parent.Parent.SizeChanged += UpdateMetadata);
+
+            forthPanel.AddControl(ProcessedResultsControl);
+
             secondPanel.AddControl(new PatternControl());
-            secondPanel.AddControl(new GenericTextControl("Global Functions", Utils.JSBeautify( CurrentState.Settings.Functions), new Action<string>(x => CurrentState.Settings.Functions = x)));
-            secondPanel.AddControl(new GenericTextControl("Session Notes", CurrentState.thisSession.Notes, new Action<string>(x => CurrentState.thisSession.Notes = x)));
-            secondPanel.AddControl(new GenericTextControl("Global Notes", CurrentState.Settings.Notes, new Action<string>(x => CurrentState.Settings.Notes = x)));
-            this.Text = System.IO.Path.GetFileNameWithoutExtension(CurrentState.thisSession.Name);
+            secondPanel.AddControl(new GenericTextControl("Global Functions", Utils.JSBeautify(CurrentState.Settings.Functions), new Action<string>(x => CurrentState.Settings.Functions = x),400));
+
+            forthPanel.AddControl(new GenericTextControl("Session Notes", CurrentState.Session.Notes, new Action<string>(x => CurrentState.Session.Notes = x)));
+            forthPanel.AddControl(new GenericTextControl("Global Notes", CurrentState.Settings.Notes, new Action<string>(x => CurrentState.Settings.Notes = x)));
+            this.Text = System.IO.Path.GetFileNameWithoutExtension(CurrentState.Session.Name);
 
         }
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-             CurrentState.Save();
+            CurrentState.Save();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -97,7 +89,7 @@ namespace Poubub.App
 
         private void revertToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            BuildSession();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -111,12 +103,12 @@ namespace Poubub.App
 
         private void processModulesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CurrentState.thisSession.ProcessedResults.Add(CurrentState.thisSession.Process(CurrentState.thisSession.InitalData));
-            if(CurrentState.thisSession.ProcessedResults.Count > 10)
+            CurrentState.Session.ProcessedResults.Add(CurrentState.Session.Process(CurrentState.Session.InitalData));
+            if (CurrentState.Session.ProcessedResults.Count > 10)
             {
-                CurrentState.thisSession.ProcessedResults.RemoveAt(0);
+                CurrentState.Session.ProcessedResults.RemoveAt(0);
             }
-            outputViewControl1.Update("CVG1");
+            ProcessedResultsControl.UpdateData();
         }
 
         private void menuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -128,6 +120,74 @@ namespace Poubub.App
         {
             CurrentState.Load();
             BuildSession();
+        }
+        private void UpdateMetadata(object sender, EventArgs e)
+        {
+            ///HACK:This is dirty as 
+            if (sender.GetType() == typeof(WrapperControl))
+            {
+                foreach(Control c in ((Control)sender).FindChildControlsOfType(typeof(FunctionModuleControl),10))
+                {
+                    if (!((WrapperControl)sender).Hidden)
+                    {
+                        if (!CurrentState.Metadata.ContainsKey("FunctionModuleControl_LastUnHidden"))
+                        {
+                            CurrentState.Metadata.Add("FunctionModuleControl_LastUnHidden", c);
+                        }
+                        else
+                        {
+                            CurrentState.Metadata["FunctionModuleControl_LastUnHidden"] = c;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void tableLayoutPanel1_SizeChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void insertModuleAboveStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //if (!CurrentState.Metadata.ContainsKey("FunctionModuleControl_LastUnHidden"))
+            //{
+            //    CurrentState.Metadata.Add("FunctionModuleControl_LastUnHidden", c);
+            //}
+            if (CurrentState.Metadata.ContainsKey("FunctionModuleControl_LastUnHidden"))
+            {
+                FunctionModuleControl currentselcted = (FunctionModuleControl)CurrentState.Metadata["FunctionModuleControl_LastUnHidden"];
+                int index = CurrentState.Session.Modules.IndexOf(currentselcted.Function);
+                CurrentState.Session.Modules.Insert(index, new CVGFunction("function (data) {return data;}"));
+                BuildSession();
+            }
+        }
+
+        private void insertBelowStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //if (!CurrentState.Metadata.ContainsKey("FunctionModuleControl_LastUnHidden"))
+            //{
+            //    CurrentState.Metadata.Add("FunctionModuleControl_LastUnHidden", c);
+            //}
+            if (CurrentState.Metadata.ContainsKey("FunctionModuleControl_LastUnHidden"))
+            {
+                FunctionModuleControl currentselcted = (FunctionModuleControl)CurrentState.Metadata["FunctionModuleControl_LastUnHidden"];
+                int index = CurrentState.Session.Modules.IndexOf(currentselcted.Function);
+                CurrentState.Session.Modules.Insert(1+ index, new CVGFunction("function (data) {return data;}"));          
+                BuildSession();
+            }
+            
+        }
+
+        private void deleteStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CurrentState.Metadata.ContainsKey("FunctionModuleControl_LastUnHidden"))
+            {
+                FunctionModuleControl currentselcted = (FunctionModuleControl)CurrentState.Metadata["FunctionModuleControl_LastUnHidden"];
+                int index = CurrentState.Session.Modules.IndexOf(currentselcted.Function);
+                CurrentState.Session.Modules.Remove( currentselcted.Function);
+                BuildSession();
+            }
         }
     }
 }

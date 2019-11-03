@@ -128,6 +128,7 @@
             this.Name = "PatternControl";
             this.Size = new System.Drawing.Size(353, 299);
             this.Load += new System.EventHandler(this.PatternControl_Load);
+            this.SizeChanged += new System.EventHandler(this.PatternControl_SizeChanged);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();

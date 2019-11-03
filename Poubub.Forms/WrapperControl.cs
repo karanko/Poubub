@@ -109,6 +109,6 @@ namespace Poubub.Forms
         internal Color darkColor = Forms.Theme.GetDarkColor();
         internal Color lightColor = Forms.Theme.GetLightColor();
 
-        internal bool Hidden = false;
+        public bool Hidden { get; internal set; } = false;
     }
 }

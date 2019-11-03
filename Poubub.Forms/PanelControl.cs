@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Poubub.Forms;
 
-namespace Poubub.App
+namespace Poubub.Forms
 {
     public partial class PanelControl : UserControl
     {
@@ -36,6 +36,14 @@ namespace Poubub.App
         {
             e.Control.Width = this.Width;
            // e.Control.StyleEverything();
+        }
+
+        private void PanelControl_SizeChanged(object sender, EventArgs e)
+        {
+            foreach (Control c in this.ModulesPanel.Controls)
+            {
+                c.Width = this.Width;
+            }
         }
     }
 }

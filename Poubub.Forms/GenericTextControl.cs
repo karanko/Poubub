@@ -16,19 +16,52 @@ namespace Poubub.Forms
         {
             InitializeComponent();
         }
-        public GenericTextControl(string name, string inputobject , Action<string> action)
+        public GenericTextControl(string name, string inputobject , Action<string> action, int? height = null)
         {
             
             InitializeComponent();
             this.Name = name;
             this.ChangeAction = action;
             textBox1.Text = inputobject;
+            if(height != null)
+            {
+                this.Height = (int)height;
+            }
         }
-        public Action<string> ChangeAction;
+        public GenericTextControl(string name, Action<TextBox> remoteaction, Action<string> action, int? height = null)
+        {
+            
+            InitializeComponent();
+            this.Name = name;
+            this.ChangeAction = action;
+            this.RemoteAction = remoteaction;
+            if(action == null)
+            {
+                textBox1.Enabled = false;
+            }
 
+            if (height != null)
+            {
+                this.Height = (int)height;
+            }
+        }
+        private Action<string> ChangeAction;
+        private Action<TextBox> RemoteAction;
+        public string UpdateData()
+        {
+            if (RemoteAction != null )
+            {
+                RemoteAction(textBox1);
+                return textBox1.Text;
+            }
+            return null;
+        }
         private void Text_Changed(object sender, EventArgs e)
         {
-            ChangeAction(((TextBox)sender).Text);
+            if (ChangeAction != null)
+            {
+                ChangeAction(((TextBox)sender).Text);
+            }
         }
     }
 }

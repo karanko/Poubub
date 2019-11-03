@@ -1,4 +1,4 @@
-﻿namespace Poubub.App
+﻿namespace Poubub.Forms
 {
     partial class PanelControl
     {
@@ -46,6 +46,7 @@
             this.Controls.Add(this.ModulesPanel);
             this.Name = "PanelControl";
             this.Size = new System.Drawing.Size(133, 283);
+            this.SizeChanged += new System.EventHandler(this.PanelControl_SizeChanged);
             this.ResumeLayout(false);
 
         }

@@ -76,18 +76,6 @@
     <Compile Include="FunctionModuleControl.Designer.cs">
       <DependentUpon>FunctionModuleControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="OutputViewControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="OutputViewControl.Designer.cs">
-      <DependentUpon>OutputViewControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PanelControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="PanelControl.Designer.cs">
-      <DependentUpon>PanelControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="PatternControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -104,12 +92,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FunctionModuleControl.resx">
       <DependentUpon>FunctionModuleControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OutputViewControl.resx">
-      <DependentUpon>OutputViewControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PanelControl.resx">
-      <DependentUpon>PanelControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PatternControl.resx">
       <DependentUpon>PatternControl.cs</DependentUpon>

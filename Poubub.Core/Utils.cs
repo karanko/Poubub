@@ -9,6 +9,7 @@ namespace Poubub.Core
 {
     public class Utils
     {
+
         private static JSBeautifyLib.JSBeautifyOptions jsbo = new JSBeautifyLib.JSBeautifyOptions();
         public static string JSBeautify(string input )
         {
@@ -25,10 +26,10 @@ namespace Poubub.Core
             {
                 var partype = multi[_rnd.Next(0, multi.Count)];
                 name.Add(partype[_rnd.Next(0, partype.Length)]);
-                if (_rnd.Next(10) == 8)
-                {
-                    name.Add((_rnd.Next(2,8)).ToString());
-                }
+                //if (_rnd.Next(10) == 8)
+                //{
+                //    name.Add((_rnd.Next(2,8)).ToString());
+                //}
             }
             if (_rnd.Next(10) < 3)
             {

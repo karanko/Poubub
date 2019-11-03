@@ -14,7 +14,7 @@ namespace Poubub.Core
 
         public static GlobalSettings Settings = new GlobalSettings();
         
-        public static Session thisSession;
+        public static Session Session;
 
         public static void Save(string filename = null)
         {
@@ -26,7 +26,7 @@ namespace Poubub.Core
             //TODO: default sve folder
             if (filename == null)
             {
-                filename = thisSession.Name;
+                filename = Session.Name;
             }
             if (File.Exists(filename))
             {
@@ -46,12 +46,13 @@ namespace Poubub.Core
 
                 File.Move(filename, filename + ".old");
             }
-            thisSession.Name = Path.GetFileName(filename);
-            File.WriteAllText(filename, JsonConvert.SerializeObject(thisSession,Formatting.Indented));
+            Session.Name = Path.GetFileName(filename);
+            File.WriteAllText(filename, JsonConvert.SerializeObject(Session,Formatting.Indented));
         }
 
         public static void Load(string filename = null)
         {
+            Metadata.Clear();
             if (File.Exists("globalSettings.json"))
             {
                 Settings = JsonConvert.DeserializeObject<GlobalSettings>(File.ReadAllText("globalSettings.json"));
@@ -70,8 +71,10 @@ namespace Poubub.Core
                     newsess.Modules.Add(new Core.CVGFunction(" function (data) { x = 1 + 1 ; return data } "));
                 }
                 newsess.Name = Utils.RandName() + ".pousess";
-                thisSession = newsess;
+                Session = newsess;
             }
         }
+
+        public static Dictionary<string, object> Metadata = new Dictionary<string, object>();
     }
 }
