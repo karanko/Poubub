@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poubub.App", "Poubub.App\Po
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poubub.Forms", "Poubub.Forms\Poubub.Forms.csproj", "{255562B2-2B27-474F-91E0-C54A95B8068C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poubub.HumanInterface", "Poubub.HumanInterface\Poubub.HumanInterface.csproj", "{602D7EDE-1CED-4B17-8267-046E2E47C55C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{255562B2-2B27-474F-91E0-C54A95B8068C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{255562B2-2B27-474F-91E0-C54A95B8068C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{255562B2-2B27-474F-91E0-C54A95B8068C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{602D7EDE-1CED-4B17-8267-046E2E47C55C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{602D7EDE-1CED-4B17-8267-046E2E47C55C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{602D7EDE-1CED-4B17-8267-046E2E47C55C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{602D7EDE-1CED-4B17-8267-046E2E47C55C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
